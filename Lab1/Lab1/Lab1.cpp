@@ -7,6 +7,7 @@ int main()
     string str;
     bool is_stopword = false;
     int l, k;
+    int N = 25;
 
     int len_array = 10;
     string stop_words[10];
@@ -35,9 +36,26 @@ for1:
     {
         str = str + " ";
 
+                //визначення чи це стоп-слово
         is_stopword = false;
-        goto stop_word;
-        backfor:
+        int j = 0;
+        for_chech_stopword:
+            if (j < len_array)
+            {   
+                char ch = stop_words[j][0];
+                ch = ch - 32;
+                string stop_word = stop_words[j];
+                stop_word[0] = ch;
+
+                if (str == stop_words[j] || str == stop_word)
+                {
+                    is_stopword = true;
+                    //goto backfor;
+                }
+
+                j++;
+                goto for_chech_stopword;
+            }
 
                     //слово потрібно опрацьовувати (не стоп слово)
         if (!is_stopword)
@@ -76,7 +94,6 @@ for1:
 
                 if (k == len_words)     //нове слово
                 {
-                    
                     amount_words[k] = 1;
                     words[k] = str;
                     len_words++;
@@ -125,57 +142,20 @@ for1:
         goto sort_for1;
     }
 
-
+        //запис в файл
+    ofstream fout;
+    fout.open("output.txt");
     l = 0;
     for3:
-        if (l < len_words)
+        if (l < len_words && l <= N)
         {
-            cout << words[l] << "- " << amount_words[l] << endl;
+            fout << words[l] << "- " << amount_words[l] << "\n";
             l++;
             goto for3;
         }
-
-    
+    fout.close();
 
     return 0;
-
-stop_word:
-    int j = 0;
-    for_chech_stopword:
-        if (j < len_array)
-        {
-            char ch = stop_words[j][0];
-            ch = ch - 32;
-            string stop_word = stop_words[j];
-            stop_word[0] = ch;
-
-            if (str == stop_words[j] || str == stop_word)
-            {
-                is_stopword = true;
-                goto backfor;
-            } 
-
-            j++;
-            goto for_chech_stopword;
-        }
-    goto backfor;
-
-    /*
-    int* s =(int*) malloc(40);
-    for (int i = 0; i < 10; i++)
-    {
-        s[i] = i;
-        cout << s[i] << " ";
-    }
-    cout << endl;
-    s = (int*) realloc(s, 80);
-
-
-    for (int i = 0; i < 20; i++)
-    {
-        cout << s[i] << " ";
-    }
-    */
 }
 
 
