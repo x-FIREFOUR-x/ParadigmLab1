@@ -6,7 +6,7 @@ int main()
 {
     string str;
     bool is_stopword = false;
-    int l;
+    int l, k;
 
     int len_array = 10;
     string stop_words[10];
@@ -67,7 +67,7 @@ for1:
 
 
                         //обрахунок слів
-            int k = 0;
+            k = 0;
         for2:
                 if (str[0] >= 65 && str[0] <= 90)
                 {
@@ -96,8 +96,35 @@ for1:
         str = "";
         goto for1;
     }
-
     fin.close();
+
+
+                //сортування
+    k = 0;
+    sort_for1:
+    if (k < len_words)
+    {
+        l = k + 1;
+        sort_for2:
+        if (l < len_words)
+        {
+            if (amount_words[k] < amount_words[l])
+            {
+                str = words[k];
+                words[k] = words[l];
+                words[l] = str;
+
+                int buf = amount_words[k];
+                amount_words[k] = amount_words[l];
+                amount_words[l] = buf;
+            }
+            l++;
+            goto sort_for2;
+        }
+        k++;
+        goto sort_for1;
+    }
+
 
     l = 0;
     for3:
