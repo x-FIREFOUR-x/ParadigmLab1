@@ -21,10 +21,12 @@ int main()
     stop_words[8] = "about ";
     stop_words[9] = "before ";
 
-    int len_words = 1;
-    int* amount_words = (int*)malloc(4);
-    string* words = (string*)malloc(28);
-    memset(words, 0, 28);
+    int len_words = 0;
+    int real_len_words = 1000;
+    int* amount_words = new int[1000];
+    string* words =new string [1000];
+
+
 
     ifstream fin("input.txt");
 
@@ -39,48 +41,49 @@ for1:
 
         if (!is_stopword)
         {
-            cout << str;
-
+                        //обрахунок слів
             int k = 0;
-            for2:
-                if (k == len_words - 1)
+        for2:
+                if (str[0] >= 65 && str[0] <= 90)
                 {
-                    amount_words[k] = 1;
-                    cout << k << endl;
-                    words[k] = str;
+                    str[0] = str[0] + 32;
+                }
 
-                    len_words++;
-                    amount_words = (int*)realloc(amount_words, len_words * 4);
-                    words = (string*)realloc(words, len_words * 28);
-                    memset(words + 28 * (len_words - 1), 0, 28);
+                if (k == len_words)     //нове слово
+                {
                     
+                    amount_words[k] = 1;
+                    words[k] = str;
+                    len_words++;
                 }
                 else
-                {
-                    if (str == words[k])
+                    if (str == words[k] )       //слово вже є + кількість 
                     {
                         amount_words[k]++;
                     }
-                    else
+                    else                        // рухаємся далі по масиву слово не співпало і слова в масиві не закінчилися
                     {
                         k++;
                         goto for2;
                     }
                 }
-        }
-
-
+        
         str = "";
         goto for1;
     }
 
-    l = 0;
-    if (l < len_words - 1)
-    {
-        //cout << words[l] << "- " << amount_words[l] << endl;
-    }
-
     fin.close();
+
+    l = 0;
+    for3:
+        if (l < len_words)
+        {
+            cout << words[l] << "- " << amount_words[l] << endl;
+            l++;
+            goto for3;
+        }
+
+    
 
     return 0;
 
