@@ -6,6 +6,7 @@ int main()
 {
     string str;
     bool is_stopword = false;
+    int l;
 
     int len_array = 10;
     string stop_words[10];
@@ -20,6 +21,10 @@ int main()
     stop_words[8] = "about ";
     stop_words[9] = "before ";
 
+    int len_words = 1;
+    int* amount_words = (int*)malloc(4);
+    string* words = (string*)malloc(28);
+    memset(words, 0, 28);
 
     ifstream fin("input.txt");
 
@@ -35,11 +40,44 @@ for1:
         if (!is_stopword)
         {
             cout << str;
+
+            int k = 0;
+            for2:
+                if (k == len_words - 1)
+                {
+                    amount_words[k] = 1;
+                    cout << k << endl;
+                    words[k] = str;
+
+                    len_words++;
+                    amount_words = (int*)realloc(amount_words, len_words * 4);
+                    words = (string*)realloc(words, len_words * 28);
+                    memset(words + 28 * (len_words - 1), 0, 28);
+                    
+                }
+                else
+                {
+                    if (str == words[k])
+                    {
+                        amount_words[k]++;
+                    }
+                    else
+                    {
+                        k++;
+                        goto for2;
+                    }
+                }
         }
-            
+
 
         str = "";
         goto for1;
+    }
+
+    l = 0;
+    if (l < len_words - 1)
+    {
+        //cout << words[l] << "- " << amount_words[l] << endl;
     }
 
     fin.close();
