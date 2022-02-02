@@ -23,8 +23,8 @@ int main()
 
     int len_words = 0;
     int real_len_words = 1000;
-    int* amount_words = new int[1000];
-    string* words =new string [1000];
+    int* amount_words = new int[real_len_words];
+    string* words =new string [real_len_words];
 
 
 
@@ -39,8 +39,33 @@ for1:
         goto stop_word;
         backfor:
 
+                    //слово потрібно опрацьовувати (не стоп слово)
         if (!is_stopword)
         {
+                    //збільшення масива
+            if (len_words == real_len_words)
+            {
+                int new_len = real_len_words * 2;
+                int* new_amount_words = new int[new_len];
+                string* new_words = new string[new_len];
+
+                l = 0;
+                rewrite:
+                if (l < len_words)
+                {
+                    new_amount_words[l] = amount_words[l];
+                    new_words[l] = words[l];
+                    l++;
+                    goto rewrite;
+                }
+                real_len_words = new_len;
+                amount_words = new_amount_words;
+                words = new_words;
+                new_amount_words = nullptr;
+                new_words = nullptr;
+            }
+
+
                         //обрахунок слів
             int k = 0;
         for2:
