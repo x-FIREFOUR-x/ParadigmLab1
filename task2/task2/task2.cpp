@@ -1,9 +1,12 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <time.h>
 
 using namespace std;
 int main()
 {
+    clock_t start, end;
+
     string str;
     bool is_stopword = false;
     int l, k, j ;
@@ -23,7 +26,7 @@ int main()
     stop_words[9] = "before ";
 
     int len_words = 0;
-    int real_len_words = 1000;
+    int real_len_words = 1000000;
     int* amount_words = new int[real_len_words];
     string* words = new string[real_len_words];
     
@@ -40,7 +43,9 @@ int main()
 
     int current_string = 1;
 
-    ifstream fin("input.txt");
+ start = clock();
+
+    ifstream fin("input3.txt");
 
 for1:
 
@@ -49,13 +54,14 @@ for1:
     if (symbol == '\n')
     {
         current_string++;
+        cout << current_string << endl;
     }
     
         //зчитати слово
     if (fin >> str)
     {
         str = str + " ";
-
+    
         //визначення чи це стоп-слово
         is_stopword = false;
         int j = 0;
@@ -76,7 +82,7 @@ for1:
             j++;
             goto for_chech_stopword;
         }
-
+    
         //слово потрібно опрацьовувати (не стоп слово)
         if (!is_stopword)
         {
@@ -167,7 +173,59 @@ for1:
     }
     fin.close();
 
+end = clock();
+cout << "READ " << (double)(end - start) / CLOCKS_PER_SEC << endl;
 
+
+/*
+start = clock();
+
+    cout << "real size:" << real_len_words << " size: " << len_words << endl;
+
+            //Чистка слів більше 100 
+    int new_len = len_words;
+    int* new_amount_words = new int[new_len];
+    string* new_words = new string[new_len];
+    int** new_pages_words = new int* [new_len];
+
+    l = 0;
+    j = 0;
+    clean:
+    if (l < len_words)
+    {
+        if (amount_words[l] <= 100)
+        {
+            new_words[j] = words[l];
+            new_amount_words[j] = amount_words[l];
+            new_pages_words[j] = pages_words[l];
+            j++;
+        }
+        else
+        {
+            delete[] pages_words[l];
+        }
+        l++;
+        goto clean;
+    }
+
+    delete[] amount_words;
+    amount_words = new_amount_words;
+    new_amount_words = nullptr;
+
+    delete[] words;
+    words = new_words;
+    new_words = nullptr;
+
+    delete[] pages_words;
+    pages_words = new_pages_words;
+    new_pages_words = nullptr;
+    
+
+end = clock();
+cout << "CLEAN " << (double)(end - start) / CLOCKS_PER_SEC << endl;
+*/
+
+start = clock();
     //сортування
     k = 0;
 sort_for1:              //вибір першого слова (зовн цикл)
@@ -226,7 +284,10 @@ sort_for1:              //вибір першого слова (зовн цик�
         goto sort_for1;
     }
 
+end = clock();
+cout << "!SORT " << (double)(end - start) / CLOCKS_PER_SEC << endl;
 
+start = clock();
  
         //запис в файл
     ofstream fout;
@@ -260,7 +321,10 @@ forfout:
     }
     fout.close();
 
-    //cout << current_string << endl;
+    end = clock();
+    cout << "!FOUT " << (double)(end - start) / CLOCKS_PER_SEC << endl;
+
+    cout << "cur string:" << current_string << endl;
     return 0;
 }
 
