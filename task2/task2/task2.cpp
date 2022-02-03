@@ -1,12 +1,9 @@
 ﻿#include <iostream>
 #include <fstream>
-#include <time.h>
 
 using namespace std;
 int main()
 {
-    clock_t start, end;
-
     string str;
     bool is_stopword = false;
     int l, k, j ;
@@ -43,7 +40,6 @@ int main()
 
     int current_string = 1;
 
- start = clock();
 
     ifstream fin("input3.txt");
 
@@ -191,14 +187,6 @@ for1:
     }
     fin.close();
 
-end = clock();
-cout << "READ " << (double)(end - start) / CLOCKS_PER_SEC << endl;
-
-
-
-start = clock();
-
-    cout << "real size:" << real_len_words << " size: " << len_words << endl;
 
             //Чистка слів більше 100 
     int n_len = len_words;
@@ -241,11 +229,6 @@ start = clock();
     n_pages_words = nullptr;
     
 
-end = clock();
-cout << "CLEAN " << (double)(end - start) / CLOCKS_PER_SEC << endl;
-
-
-start = clock();
     //сортування
     k = 0;
 sort_for1:              //вибір першого слова (зовн цикл)
@@ -303,11 +286,6 @@ sort_for1:              //вибір першого слова (зовн цик�
         k++;
         goto sort_for1;
     }
-
-end = clock();
-cout << "!SORT " << (double)(end - start) / CLOCKS_PER_SEC << endl;
-
-start = clock();
  
         //запис в файл
     ofstream fout;
@@ -341,10 +319,6 @@ forfout:
     }
     fout.close();
 
-    end = clock();
-    cout << "!FOUT " << (double)(end - start) / CLOCKS_PER_SEC << endl;
-
-    cout << "cur string:" << current_string << endl;
     return 0;
 }
 
