@@ -26,7 +26,7 @@ int main()
     stop_words[9] = "before ";
 
     int len_words = 0;
-    int real_len_words = 1000000;
+    int real_len_words = 20000;
     int* amount_words = new int[real_len_words];
     string* words = new string[real_len_words];
     
@@ -60,6 +60,7 @@ for1:
         //зчитати слово
     if (fin >> str)
     {
+
         str = str + " ";
     
         //визначення чи це стоп-слово
@@ -177,16 +178,16 @@ end = clock();
 cout << "READ " << (double)(end - start) / CLOCKS_PER_SEC << endl;
 
 
-/*
+
 start = clock();
 
     cout << "real size:" << real_len_words << " size: " << len_words << endl;
 
             //Чистка слів більше 100 
-    int new_len = len_words;
-    int* new_amount_words = new int[new_len];
-    string* new_words = new string[new_len];
-    int** new_pages_words = new int* [new_len];
+    int n_len = len_words;
+    int* n_amount_words = new int[n_len];
+    string* n_words = new string[n_len];
+    int** n_pages_words = new int* [n_len];
 
     l = 0;
     j = 0;
@@ -195,35 +196,37 @@ start = clock();
     {
         if (amount_words[l] <= 100)
         {
-            new_words[j] = words[l];
-            new_amount_words[j] = amount_words[l];
-            new_pages_words[j] = pages_words[l];
+            n_words[j] = words[l];
+            n_amount_words[j] = amount_words[l];
+            n_pages_words[j] = pages_words[l];
             j++;
         }
         else
         {
             delete[] pages_words[l];
+            pages_words[l] = nullptr;
         }
         l++;
         goto clean;
     }
+    len_words = j;
 
     delete[] amount_words;
-    amount_words = new_amount_words;
-    new_amount_words = nullptr;
+    amount_words = n_amount_words;
+    n_amount_words = nullptr;
 
     delete[] words;
-    words = new_words;
-    new_words = nullptr;
+    words = n_words;
+    n_words = nullptr;
 
     delete[] pages_words;
-    pages_words = new_pages_words;
-    new_pages_words = nullptr;
+    pages_words = n_pages_words;
+    n_pages_words = nullptr;
     
 
 end = clock();
 cout << "CLEAN " << (double)(end - start) / CLOCKS_PER_SEC << endl;
-*/
+
 
 start = clock();
     //сортування
