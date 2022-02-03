@@ -46,11 +46,12 @@ int main()
 for1:
 
         //перевірка номера рядка
-    char symbol = fin.peek();
-    if (symbol == '\n')
+check_cur_str:
+    if (fin.peek() == '\n')
     {
         current_string++;
-        //cout << current_string << endl;
+        fin.get();
+        goto check_cur_str;
     }
     
         //зчитати слово
