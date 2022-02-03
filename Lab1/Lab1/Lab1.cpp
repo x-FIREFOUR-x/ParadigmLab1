@@ -23,7 +23,7 @@ int main()
     stop_words[9] = "before ";
 
     int len_words = 0;
-    int real_len_words = 1000;
+    int real_len_words = 20000;
     int* amount_words = new int[real_len_words];
     string* words =new string [real_len_words];
 
@@ -76,10 +76,15 @@ for1:
                     l++;
                     goto rewrite;
                 }
+
                 real_len_words = new_len;
+
+                delete[] amount_words;
                 amount_words = new_amount_words;
-                words = new_words;
                 new_amount_words = nullptr;
+
+                delete[] words;
+                words = new_words;
                 new_words = nullptr;
             }
 
