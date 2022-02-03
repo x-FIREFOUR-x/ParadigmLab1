@@ -26,18 +26,19 @@ int main()
     int real_len_words = 1000;
     int* amount_words = new int[real_len_words];
     string* words = new string[real_len_words];
+    
 
     int** pages_words = new int* [real_len_words];
     l = 0;
     for6:
     if (l < real_len_words)
     {
-        pages_words[l] = new int[100];
+        pages_words[l] = new int[101];
         l++;
         goto for6;
     }
 
-    int amount_string = 1;
+    int current_string = 1;
 
     ifstream fin("input.txt");
 
@@ -47,7 +48,7 @@ for1:
     char symbol = fin.peek();
     if (symbol == '\n')
     {
-        amount_string++;
+        current_string++;
     }
     
         //зчитати слово
@@ -100,7 +101,7 @@ for1:
                 else
                     if (l >= len_words && l < new_len)
                     {
-                        new_pages_words[l] = new int[100];
+                        new_pages_words[l] = new int[101];
                         l++;
                         goto for7;
                     }
@@ -116,12 +117,17 @@ for1:
                 }
 
                 real_len_words = new_len;
-                amount_words = new_amount_words;
-                words = new_words;
-                pages_words = new_pages_words;
 
+                delete[] amount_words;
+                amount_words = new_amount_words;
                 new_amount_words = nullptr;
+
+                delete[] words;
+                words = new_words;
                 new_words = nullptr;
+
+                delete[] pages_words;
+                pages_words = new_pages_words;
                 new_pages_words = nullptr;
 
             }
@@ -140,18 +146,20 @@ for1:
             {
                 amount_words[k] = 1;
                 words[k] = str;
+                pages_words[k][0] = (current_string / 46) + 1;
                 len_words++;
             }
             else
-                if (str == words[k])       //слово вже є + кількість 
+                if (str == words[k] && amount_words[k] < 101)       //слово вже є + кількість (таких слів було знайдено менше 101)
                 {
+                    pages_words[k][amount_words[k]] = (current_string / 46) + 1;
                     amount_words[k]++;
                 }
                 else                        // рухаємся далі по масиву слово не співпало і слова в масиві не закінчилися
                 {
                     k++;
                     goto for2;
-                }
+                }         
         }
 
         str = "";
@@ -159,7 +167,7 @@ for1:
     }
     fin.close();
 
-
+/*
     //сортування
     k = 0;
 sort_for1:
@@ -185,22 +193,42 @@ sort_for1:
         k++;
         goto sort_for1;
     }
+*/
 
-    //запис в файл
+ 
+        //запис в файл
     ofstream fout;
     fout.open("output.txt");
     l = 0;
-for3:
-    if (l < len_words && l <= N)
+forfout:
+    if (l < len_words)
     {
-        fout << words[l] << "- " << amount_words[l] << "\n";
+        fout << words[l] << "-";
+        if (amount_words[l] <= 100)
+        {
+            k = 0;
+        forfout2:
+            if (k < amount_words[l] && k == 0)
+            {
+                fout << " " << pages_words[l][k];
+                k++;
+                goto forfout2;
+            }
+            else
+                if(k < amount_words[l] && k > 0)
+                {
+                    fout << ", " << pages_words[l][k];
+                    k++;
+                    goto forfout2;
+                }
+            fout << "\n";
+        }
         l++;
-        goto for3;
+        goto forfout;
     }
     fout.close();
 
-
-    cout << amount_string << endl;
+    //cout << current_string << endl;
     return 0;
 }
 
