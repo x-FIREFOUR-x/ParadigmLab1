@@ -54,7 +54,7 @@ for1:
     if (symbol == '\n')
     {
         current_string++;
-        cout << current_string << endl;
+        //cout << current_string << endl;
     }
     
         //зчитати слово
