@@ -6,7 +6,7 @@ int main()
 {
     string str;
     bool is_stopword = false;
-    int l, k;
+    int l, k, j ;
     int N = 25;
 
     int len_array = 10;
@@ -167,17 +167,43 @@ for1:
     }
     fin.close();
 
-/*
+
     //сортування
     k = 0;
-sort_for1:
+sort_for1:              //вибір першого слова (зовн цикл)
     if (k < len_words)
     {
         l = k + 1;
-    sort_for2:
+    sort_for2:                //вибір другого слова (внутр цикл)
         if (l < len_words)
         {
-            if (amount_words[k] < amount_words[l])
+                    // перевірка чи два слова потрібно поміняти місцями за алфавітом
+            bool is_swap = false;
+            j = 0;
+            sort_words:
+            if (words[k][j] != ' ' || words[l][j] != ' ')
+            {
+                if (words[k][j] == words[l][j])
+                {
+                    j++;
+                    goto sort_words;
+                }
+                else
+                {
+                    if (words[k][j] > words[l][j])
+                    {
+                        is_swap = true;
+                    }
+                }
+            }
+            else            //одне з слів закінчилося
+            {
+                if(words[l][j] != ' ')          //друге слово коротше і співпадає з частиною першого
+                    is_swap = true;
+            }
+
+                //зміна місцями слів
+            if (is_swap)
             {
                 str = words[k];
                 words[k] = words[l];
@@ -186,14 +212,20 @@ sort_for1:
                 int buf = amount_words[k];
                 amount_words[k] = amount_words[l];
                 amount_words[l] = buf;
+
+                int* b = pages_words[k];
+                pages_words[k] = pages_words[l];
+                pages_words[l] = b;
             }
+
+
             l++;
             goto sort_for2;
         }
         k++;
         goto sort_for1;
     }
-*/
+
 
  
         //запис в файл
