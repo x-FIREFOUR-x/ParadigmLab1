@@ -25,7 +25,7 @@ int main()
     int len_words = 0;
     int real_len_words = 20000;
     int* amount_words = new int[real_len_words];
-    string* words =new string [real_len_words];
+    string* words = new string[real_len_words];
 
 
 
@@ -58,31 +58,31 @@ for1:
         else
             str = buf_str + " ";
 
-                //визначення чи це стоп-слово
+        //визначення чи це стоп-слово
         is_stopword = false;
         int j = 0;
-        for_chech_stopword:
-            if (j < len_array)
-            {   
-                char ch = stop_words[j][0];
-                ch = ch - 32;
-                string stop_word = stop_words[j];
-                stop_word[0] = ch;
+    for_chech_stopword:
+        if (j < len_array)
+        {
+            char ch = stop_words[j][0];
+            ch = ch - 32;
+            string stop_word = stop_words[j];
+            stop_word[0] = ch;
 
-                if (str == stop_words[j] || str == stop_word)
-                {
-                    is_stopword = true;
-                    //goto backfor;
-                }
-
-                j++;
-                goto for_chech_stopword;
+            if (str == stop_words[j] || str == stop_word)
+            {
+                is_stopword = true;
+                //goto backfor;
             }
 
-                    //слово потрібно опрацьовувати (не стоп слово)
+            j++;
+            goto for_chech_stopword;
+        }
+
+        //слово потрібно опрацьовувати (не стоп слово)
         if (!is_stopword)
         {
-                    //збільшення масива
+            //збільшення масива
             if (len_words == real_len_words)
             {
                 int new_len = real_len_words * 2;
@@ -90,7 +90,7 @@ for1:
                 string* new_words = new string[new_len];
 
                 l = 0;
-                rewrite:
+            rewrite:
                 if (l < len_words)
                 {
                     new_amount_words[l] = amount_words[l];
@@ -111,41 +111,41 @@ for1:
             }
 
 
-                        //обрахунок слів
+            //обрахунок слів
             k = 0;
         for2:
 
-                if (k == len_words)     //нове слово
+            if (k == len_words)     //нове слово
+            {
+                amount_words[k] = 1;
+                words[k] = str;
+                len_words++;
+            }
+            else
+                if (str == words[k])       //слово вже є + кількість 
                 {
-                    amount_words[k] = 1;
-                    words[k] = str;
-                    len_words++;
+                    amount_words[k]++;
                 }
-                else
-                    if (str == words[k] )       //слово вже є + кількість 
-                    {
-                        amount_words[k]++;
-                    }
-                    else                        // рухаємся далі по масиву слово не співпало і слова в масиві не закінчилися
-                    {
-                        k++;
-                        goto for2;
-                    }
+                else                        // рухаємся далі по масиву слово не співпало і слова в масиві не закінчилися
+                {
+                    k++;
+                    goto for2;
                 }
-        
+        }
+
         str = "";
         goto for1;
     }
     fin.close();
 
 
-                //сортування
+    //сортування
     k = 0;
-    sort_for1:
+sort_for1:
     if (k < len_words)
     {
         l = k + 1;
-        sort_for2:
+    sort_for2:
         if (l < len_words)
         {
             if (amount_words[k] < amount_words[l])
@@ -165,20 +165,21 @@ for1:
         goto sort_for1;
     }
 
-        //запис в файл
+    //запис в файл
     ofstream fout;
     fout.open("output.txt");
     l = 0;
-    for3:
-        if (l < len_words && l <= N)
-        {
-            fout << words[l] << "- " << amount_words[l] << "\n";
-            l++;
-            goto for3;
-        }
+for3:
+    if (l < len_words && l <= N)
+    {
+        fout << words[l] << "- " << amount_words[l] << "\n";
+        l++;
+        goto for3;
+    }
     fout.close();
 
     return 0;
 }
+
 
 
