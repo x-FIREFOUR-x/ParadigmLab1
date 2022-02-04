@@ -38,7 +38,7 @@ int main()
         goto for6;
     }
 
-    int current_string = 1;
+    int current_string = 0;
 
 
     ifstream fin("input.txt");
@@ -167,13 +167,13 @@ check_cur_str:
             {
                 amount_words[k] = 1;
                 words[k] = str;
-                pages_words[k][0] = (current_string / 46) + 1;
+                pages_words[k][0] = (current_string / 45) + 1;
                 len_words++;
             }
             else
                 if (str == words[k] && amount_words[k] < 101)       //слово вже є + кількість (таких слів було знайдено менше 101)
                 {
-                    pages_words[k][amount_words[k]] = (current_string / 46) + 1;
+                    pages_words[k][amount_words[k]] = (current_string / 45) + 1;
                     amount_words[k]++;
                 }
                 else                        // рухаємся далі по масиву слово не співпало і слова в масиві не закінчилися
