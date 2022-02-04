@@ -6,7 +6,7 @@ int main()
 {
     string str;
     bool is_stopword = false;
-    int l, k;
+    int l, k, j;
     int N = 25;
 
     int len_array = 10;
@@ -35,6 +35,28 @@ for1:
     if (fin >> str)
     {
         str = str + " ";
+        string buf_str = "";
+
+        //нормалізація слів і відрізання не слівних символів
+        j = 0;
+    for69:
+        if (str[j] != ' ')
+        {
+            if ((str[j] >= 'A' && str[j] <= 'Z') || (str[j] >= 'a' && str[j] <= 'z') || (str[j] == '-'))
+            {
+                if ((str[j] >= 'A' && str[j] <= 'Z'))
+                {
+                    str[j] = str[j] + 32;
+                }
+                buf_str += str[j];
+            }
+            j++;
+            goto for69;
+        }
+        if (buf_str[0] == ' ' || buf_str == "" || buf_str == "-")
+            goto for1;
+        else
+            str = buf_str + " ";
 
                 //визначення чи це стоп-слово
         is_stopword = false;
@@ -92,10 +114,6 @@ for1:
                         //обрахунок слів
             k = 0;
         for2:
-                if (str[0] >= 65 && str[0] <= 90)
-                {
-                    str[0] = str[0] + 32;
-                }
 
                 if (k == len_words)     //нове слово
                 {

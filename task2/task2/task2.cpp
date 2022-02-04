@@ -41,7 +41,7 @@ int main()
     int current_string = 1;
 
 
-    ifstream fin("input3.txt");
+    ifstream fin("input.txt");
 
 for1:
 
