@@ -6,8 +6,7 @@ int main()
 {
     string str;
     bool is_stopword = false;
-    int l, k, j ;
-    int N = 25;
+    int l, k, j;
 
     int len_array = 10;
     string stop_words[10];
